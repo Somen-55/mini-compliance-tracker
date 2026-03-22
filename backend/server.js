@@ -2,6 +2,8 @@ import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
+import clientRoutes from "./routes/clientRoutes.js";
+import taskRoutes from "./routes/taskRoutes.js";
 
 dotenv.config();
 
@@ -15,6 +17,8 @@ app.get("/", (req, res) => {
   res.send("API is running...");
 });
 
+app.use("/api/clients", clientRoutes);
+app.use("/api/tasks", taskRoutes);
 // Connect DB
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log("MongoDB Connected"))
