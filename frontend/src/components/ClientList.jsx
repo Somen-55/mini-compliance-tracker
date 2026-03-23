@@ -1,52 +1,63 @@
 import { useState } from "react";
 import { createClient } from "../api";
 
-function ClientList({ clients, setSelectedClient }) {
-  const [name, setName] = useState("");
+function ClientList({ clients, setSelectedClient, loadClients }) {
+  const [company, setCompany] = useState("");
+  const [country, setCountry] = useState("");
+  const [type, setType] = useState("");
 
   const addClient = async () => {
-    if (!name) return;
+    if (!company || !country || !type) return;
 
     await createClient({
-      company_name: name,
-      country: "India",
-      entity_type: "Private Limited"
+      company_name: company,
+      country,
+      entity_type: type
     });
 
-    window.location.reload();
+    setCompany("");
+    setCountry("");
+    setType("");
+    loadClients();
   };
 
   return (
-    <div className="mb-4">
-      <div className="mb-3">
-        <input
-          className="form-control mb-2"
-          placeholder="Add new client"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-        <button className="btn btn-primary" onClick={addClient}>
-          Add Client
-        </button>
-      </div>
+    <div className="mb-4 p-3 rounded"
+      style={{ background: "#1e293b", border: "1px solid #334155" }}>
 
-      <label className="form-label fw-bold">Select Client</label>
+      <input className="form-control mb-2"
+        placeholder="Company Name *"
+        value={company}
+        onChange={(e) => setCompany(e.target.value)} />
 
-      <select
-        className="form-select"
-        defaultValue=""
-        onChange={(e) => setSelectedClient(e.target.value)}
-      >
-        <option value="" disabled>
-          -- Choose a Client --
-        </option>
+      <input className="form-control mb-2"
+        placeholder="Country *"
+        value={country}
+        onChange={(e) => setCountry(e.target.value)} />
 
+      <select className="form-control mb-2"
+        value={type}
+        onChange={(e) => setType(e.target.value)}>
+        <option value="">Select Type *</option>
+        <option>Private</option>
+        <option>Public</option>
+        <option>LLP</option>
+      </select>
+
+      <button className="btn btn-primary mb-3" onClick={addClient}>
+        Add Client
+      </button>
+
+      <select className="form-select"
+        onChange={(e) => setSelectedClient(e.target.value)}>
+        <option>Select Client</option>
         {clients.map(c => (
           <option key={c._id} value={c._id}>
             {c.company_name}
           </option>
         ))}
       </select>
+
     </div>
   );
 }

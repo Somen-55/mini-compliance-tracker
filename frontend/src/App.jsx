@@ -7,8 +7,13 @@ function App() {
   const [clients, setClients] = useState([]);
   const [selectedClient, setSelectedClient] = useState("");
 
-  useEffect(() => {
+  // ✅ create this function
+  const loadClients = () => {
     getClients().then(res => setClients(res.data));
+  };
+
+  useEffect(() => {
+    loadClients();
   }, []);
 
   return (
@@ -21,7 +26,6 @@ function App() {
     >
       <div className="container">
 
-        {/* HEADER */}
         <div className="mb-4">
           <h2 className="fw-bold" style={{ color: "#2c3e50" }}>
             Compliance Tracker
@@ -31,7 +35,6 @@ function App() {
           </p>
         </div>
 
-        {/* MAIN CARD */}
         <div
           className="shadow-sm p-4"
           style={{
@@ -40,9 +43,11 @@ function App() {
             border: "1px solid #dce1e7"
           }}
         >
+          {/* ✅ pass loadClients */}
           <ClientList
             clients={clients}
             setSelectedClient={setSelectedClient}
+            loadClients={loadClients}
           />
 
           {selectedClient ? (
