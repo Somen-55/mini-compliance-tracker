@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API = "https://mini-compliance-tracker-backend-2ywc.onrender.com";
+const API = "https://mini-compliance-tracker-backend-2ywc.onrender.com/api";
 
 export const getClients = () => axios.get(`${API}/clients`);
 export const createClient = (data) => axios.post(`${API}/clients`, data);
