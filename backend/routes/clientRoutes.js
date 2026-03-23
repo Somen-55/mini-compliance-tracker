@@ -13,4 +13,15 @@ router.get("/", async (req, res) => {
   }
 });
 
+// Add client
+router.post("/", async (req, res) => {
+  try {
+    const client = new Client(req.body);
+    await client.save();
+    res.json(client);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+});
+
 export default router;

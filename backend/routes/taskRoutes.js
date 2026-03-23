@@ -3,7 +3,7 @@ import Task from "../models/Task.js";
 
 const router = express.Router();
 
-// Get tasks for a client
+// Get tasks by client
 router.get("/:clientId", async (req, res) => {
   try {
     const tasks = await Task.find({ client_id: req.params.clientId });
@@ -13,10 +13,13 @@ router.get("/:clientId", async (req, res) => {
   }
 });
 
-// Create new task
+// Create task
 router.post("/", async (req, res) => {
   try {
-    const task = new Task(req.body);
+    const task = new Task({
+      ...req.body,
+      status: "Pending"
+    });
     await task.save();
     res.json(task);
   } catch (err) {
@@ -24,13 +27,39 @@ router.post("/", async (req, res) => {
   }
 });
 
-// Update task status
+// Mark complete
 router.put("/:id", async (req, res) => {
   try {
-    const task = await Task.findById(req.params.id);
-    task.status = "Completed";
-    await task.save();
+    const task = await Task.findByIdAndUpdate(
+      req.params.id,
+      { status: "Completed" },
+      { new: true }
+    );
     res.json(task);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+});
+
+// Edit task
+router.put("/edit/:id", async (req, res) => {
+  try {
+    const task = await Task.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true }
+    );
+    res.json(task);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+});
+
+// Delete task
+router.delete("/:id", async (req, res) => {
+  try {
+    await Task.findByIdAndDelete(req.params.id);
+    res.json({ message: "Deleted" });
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
