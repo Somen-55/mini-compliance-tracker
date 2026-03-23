@@ -259,7 +259,7 @@ function TaskItem({ task, onEdit, onUpdate, onDelete }) {
           
           <div className="d-flex gap-2">
             <button className={`btn btn-sm fw-bold rounded-3 ${task.status === "Completed" ? 'btn-light' : 'btn-primary'}`} onClick={onUpdate}>
-              {task.status === "Completed" ? "Undo" : "Close"}
+              {task.status === "Completed" ? "mark as pending" : "mark as completed"}
             </button>
             <div className="btn-group">
               <button className="btn btn-sm btn-outline-light text-secondary border-0" onClick={onEdit}>Edit</button>
