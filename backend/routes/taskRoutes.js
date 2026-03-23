@@ -30,17 +30,22 @@ router.post("/", async (req, res) => {
 // Mark complete
 router.put("/:id", async (req, res) => {
   try {
-    const task = await Task.findByIdAndUpdate(
+    const task = await Task.findById(req.params.id);
+
+    const newStatus =
+      task.status === "Completed" ? "Pending" : "Completed";
+
+    const updatedTask = await Task.findByIdAndUpdate(
       req.params.id,
-      { status: "Completed" },
+      { status: newStatus },
       { new: true }
     );
-    res.json(task);
+
+    res.json(updatedTask);
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
 });
-
 // Edit task
 router.put("/edit/:id", async (req, res) => {
   try {
