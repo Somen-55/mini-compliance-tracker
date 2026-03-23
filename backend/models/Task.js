@@ -3,17 +3,37 @@ import mongoose from "mongoose";
 const taskSchema = new mongoose.Schema({
   client_id: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Client"
+    ref: "Client",
+    required: true
   },
-  title: String,
-  description: String,
-  category: String,
-  due_date: Date,
+  title: {
+    type: String,
+    required: true
+  },
+  description: {
+    type: String,
+    required: true
+  },
+  category: {
+    type: String,
+    required: true
+  },
+  due_date: {
+    type: Date,
+    required: true
+  },
   status: {
     type: String,
+    enum: ["Pending", "Completed"],
     default: "Pending"
   },
-  priority: String
+  priority: {
+    type: String,
+    enum: ["High", "Medium", "Low"],
+    default: "Medium"
+  }
+}, {
+  timestamps: true
 });
 
 export default mongoose.model("Task", taskSchema);
