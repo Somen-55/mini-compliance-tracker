@@ -12,32 +12,47 @@ function App() {
   }, []);
 
   return (
-    <div className="container mt-5">
-      
-      {/* 🔥 HEADER */}
-      <div className="text-center mb-4">
-        <h2 className="fw-bold">Compliance Tracker</h2>
-        <p className="text-muted">
-          Manage client compliance tasks efficiently
-        </p>
-      </div>
+    <div
+      style={{
+        background: "linear-gradient(135deg, #eef2f7, #dde3ec)",
+        minHeight: "100vh",
+        padding: "40px"
+      }}
+    >
+      <div className="container">
 
-      {/* 🔹 MAIN CARD */}
-      <div className="card shadow p-4">
-        
-        <ClientList
-          clients={clients}
-          setSelectedClient={setSelectedClient}
-        />
-
-        {selectedClient ? (
-          <TaskList client={selectedClient} />
-        ) : (
-          <p className="text-center text-muted mt-3">
-            Please select a client to view tasks
+        {/* HEADER */}
+        <div className="mb-4">
+          <h2 className="fw-bold" style={{ color: "#2c3e50" }}>
+            Compliance Tracker
+          </h2>
+          <p style={{ color: "#6c757d" }}>
+            Manage compliance tasks across clients
           </p>
-        )}
+        </div>
 
+        {/* MAIN CARD */}
+        <div
+          className="shadow-sm p-4"
+          style={{
+            borderRadius: "14px",
+            backgroundColor: "#ffffff",
+            border: "1px solid #dce1e7"
+          }}
+        >
+          <ClientList
+            clients={clients}
+            setSelectedClient={setSelectedClient}
+          />
+
+          {selectedClient ? (
+            <TaskList client={selectedClient} />
+          ) : (
+            <p className="text-muted mt-3">
+              Select a client to view tasks
+            </p>
+          )}
+        </div>
       </div>
     </div>
   );
